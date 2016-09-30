@@ -4,7 +4,7 @@ void setup()
 {
 	size(600, 600);
 	//your code here
-	nParticle = new Particle[2000];
+	nParticle = new Particle[1000];
 	for(int i = 0; i < nParticle.length; i++)
 	{
 		nParticle[i] = new NormalParticle(300, 300);
@@ -52,6 +52,18 @@ class NormalParticle implements Particle
 			dSpeed = dSpeed / 2;
 			dAngle = dAngle + Math.random()*2*Math.PI;
 		}
+
+		if(mousePressed)
+		{
+			dSpeed = dSpeed * 1.2;
+			myX = myX + cos((float)dAngle) * dSpeed - cos((float)dAngle) * dSpeed;
+			myY = myY + sin((float)dAngle) * dSpeed - sin((float)dAngle) * dSpeed;
+		}
+
+		if(keyPressed)
+		{
+			dAngle = dAngle + Math.random() * 2 * Math.PI;
+		}
 	}
 
 	public void show()
@@ -59,9 +71,6 @@ class NormalParticle implements Particle
 		fill(cRed, cGreen, cBlue);
 		//fill(255);
 		ellipse((float) myX, (float) myY, 4.5, 4.5);
-
-
-	
 	}
 }
 
@@ -102,7 +111,7 @@ class OddballParticle implements Particle//uses an interface
 	}
 }
 
-class JumboParticle extends NormalParticle //uses inheritance
+class JumboParticle //extends NormalParticle //uses inheritance
 {
 	//your code here
 	
