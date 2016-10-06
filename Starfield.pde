@@ -36,7 +36,6 @@ void draw()
 	}
 
 	fill(0);
-	noStroke();
 	ellipse(300, 300, 30, 30);
 }
 
@@ -90,7 +89,6 @@ class NormalParticle implements Particle
 	{
 		fill(cRed, cGreen, cBlue,(int)(Math.random()*255));
 		//fill(255);
-		noStroke();
 		ellipse((float) myX, (float) myY, 4, 4);
 	}
 }
