@@ -9,25 +9,35 @@ void setup()
 	{
 		nParticle[i] = new NormalParticle(300, 300);
 
-		if( i % 23 == 0)
+		if(i % 23 == 0)
 		{
 			nParticle[i] = new JumboParticle(300, 300);
 		}
 
+		else if(i % 30 == 0)
+		{
+			nParticle[i] = new OddballParticle(300, 300);
+		}
+
 	}
 
-	nParticle[1] = new OddballParticle(300, 300);
+
 }
 
 void draw()
 {
 	background(0);
 	//your code here
+	stroke(200);
 	for(int i = 0; i < nParticle.length; i++)
 	{
 		nParticle[i].move();
 		nParticle[i].show();
 	}
+
+	fill(0);
+	noStroke();
+	ellipse(300, 300, 30, 30);
 }
 
 class NormalParticle implements Particle
@@ -59,15 +69,15 @@ class NormalParticle implements Particle
 		if(((float) myX > 600) || ((float) myX < 0) && ((float) myY > 600) || ((float) myY < 0))
 		{
 			myX = myY = 300;
-			dSpeed = dSpeed / 2;
-			dAngle = dAngle + Math.random()*2*Math.PI;
+			dAngle =  Math.random()*2*Math.PI;
+			dSpeed = 5;
 			cRed = (int)(Math.random() * 16) + 239;
 			cBlue = (int)(Math.random() * 255);
 		}
 
 		if(mousePressed)
 		{
-			dSpeed = dSpeed * 1.025;
+			dSpeed = dSpeed * 1.05;
 		}
 
 		if(keyPressed)
@@ -78,9 +88,10 @@ class NormalParticle implements Particle
 
 	public void show()
 	{
-		fill(cRed, cGreen, cBlue);
+		fill(cRed, cGreen, cBlue,(int)(Math.random()*255));
 		//fill(255);
-		ellipse((float) myX, (float) myY, 4.5, 4.5);
+		noStroke();
+		ellipse((float) myX, (float) myY, 4, 4);
 	}
 }
 
@@ -93,31 +104,50 @@ interface Particle
 
 class OddballParticle implements Particle//uses an interface
 {
-	double myX, myY, dSpeed;
+	double myX, myY, dSpeed, dAngle;
 	int cRed, cGreen, cBlue;
+	boolean isExpanding;
 	//your code here
 	OddballParticle(float x, float y)
 	{
 		myX = x;
 		myY = y;
 		dSpeed = Math.random()*5;
+		dAngle = dAngle + Math.random()*2*Math.PI;
+		isExpanding = true;
 
 	}
 
 	public void move()
 	{
-		myX = myX + Math.random() * dSpeed - (dSpeed / 2);
-		myY = myY + Math.random() * dSpeed - (dSpeed / 2);
+		if(isExpanding == true)
+		{
+			myX = myX + cos((float)dAngle) * dSpeed;
+			myY = myY + sin((float)dAngle) * dSpeed;
+		}
+		else if (isExpanding == false)
+		{
+			myX = myX - cos((float)dAngle) * dSpeed;
+			myY = myY - sin((float)dAngle) * dSpeed;
+		}
+
 		if(((float) myX > 600) || ((float) myX < 0) && ((float) myY > 600) || ((float) myY < 0))
 		{
-			myX = myY = 300;
+			isExpanding = false;
+		}
+
+		else if(myX == 300 && myY == 300)
+		{
+			isExpanding = true;
+			dAngle = dAngle + Math.random()*2*Math.PI;
 		}
 	}
 
 	public void show()
 	{
 		fill(255);
-		rect((float) myX, (float) myY, 20, 20);
+		stroke(0);
+		rect((float) myX, (float) myY, 10, 10, 2);
 	}
 }
 
@@ -135,7 +165,7 @@ class JumboParticle extends NormalParticle //uses inheritance
 	public void show()
 	{
 		fill(cBlue); //greyscale
-		ellipse((float) myX, (float) myY, 10, 10);
+		ellipse((float) myX, (float) myY, 9, 9);
 	}
 	
 }
