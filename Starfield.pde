@@ -4,7 +4,7 @@ void setup()
 {
 	size(600, 600);
 	//your code here
-	nParticle = new Particle[3000];
+	nParticle = new Particle[1500];
 	for(int i = 0; i < nParticle.length; i++)
 	{
 		nParticle[i] = new NormalParticle(300, 300);
@@ -69,7 +69,7 @@ class NormalParticle implements Particle
 		{
 			myX = myY = 300;
 			dAngle =  Math.random()*2*Math.PI;
-			dSpeed = 5;
+			dSpeed = dSpeed/2;
 			cRed = (int)(Math.random() * 16) + 239;
 			cBlue = (int)(Math.random() * 255);
 		}
@@ -110,7 +110,7 @@ class OddballParticle implements Particle//uses an interface
 	{
 		myX = x;
 		myY = y;
-		dSpeed = Math.random()*5;
+		dSpeed = Math.random()*5 + 3;
 		dAngle = dAngle + Math.random()*2*Math.PI;
 		isExpanding = true;
 
@@ -129,9 +129,10 @@ class OddballParticle implements Particle//uses an interface
 			myY = myY - sin((float)dAngle) * dSpeed;
 		}
 
-		if(((float) myX > 600) || ((float) myX < 0) && ((float) myY > 600) || ((float) myY < 0))
+		if( (((float) myX > 580) || ((float) myX < 0) )&& (((float) myY > 580) || ((float) myY < 0)))
 		{
 			isExpanding = false;
+			dSpeed = dSpeed/2;
 		}
 
 		else if(myX == 300 && myY == 300)
